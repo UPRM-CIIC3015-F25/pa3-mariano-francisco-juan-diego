@@ -138,14 +138,17 @@ class DeckManager:
         return jokers
 
     # ---------- Deck creation ----------
-    # TODO (TASK 1): Implement a function that creates a full deck of Cards.
-    #   Loop through all possible suits and ranks, retrieve the corresponding image
-    #   from the card_images dictionary using (suit, rank) as the key, and create a Card
-    #   object for each valid combination. If a matching image is not found, skip that card.
-    #   Add each created Card to a list called 'deck' and return the completed list at the end.
     def createDeck(self, subLevel: SubLevel = None):
         cardImages = self.load_card_images(subLevel)
         deck = []
+        suits = [Suit.HEARTS, Suit.CLUBS, Suit.DIAMONDS, Suit.SPADES] # All possible suits
+        ranks = [Rank.TWO, Rank.THREE, Rank.FOUR, Rank.FIVE, Rank.SIX,
+                 Rank.SEVEN, Rank.EIGHT, Rank.NINE, Rank.TEN, Rank.JACK,
+                 Rank.QUEEN, Rank.KING, Rank.ACE] # All possible ranks
+        for suit in suits:
+            for rank in ranks:
+                if not cardImages[(suit, rank)] is None: # Checks if image for card that is going to be generated is available
+                    deck.append(Card(suit=suit, rank=rank, image=cardImages[(suit, rank)])) # Adds New card to the deck
         return deck
 
     # TODO (TASK 5.1): Complete the priceMap variable by assigning each joker a price.
