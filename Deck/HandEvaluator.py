@@ -1,13 +1,45 @@
 from Cards.Card import Card, Rank
 
-# TODO (TASK 3): Implement a function that evaluates a player's poker hand.
-#   Loop through all cards in the given 'hand' list and collect their ranks and suits.
-#   Use a dictionary to count how many times each rank appears to detect pairs, three of a kind, or four of a kind.
-#   Sort these counts from largest to smallest. Use another dictionary to count how many times each suit appears to check
-#   for a flush (5 or more cards of the same suit). Remove duplicate ranks and sort them to detect a
-#   straight (5 cards in a row). Remember that the Ace (rank 14) can also count as 1 when checking for a straight.
-#   If both a straight and a flush occur in the same suit, return "Straight Flush". Otherwise, use the rank counts
-#   and flags to determine if the hand is: "Four of a Kind", "Full House", "Flush", "Straight", "Three of a Kind",
-#   "Two Pair", "One Pair", or "High Card". Return a string with the correct hand type at the end.
 def evaluate_hand(hand: list[Card]):
+    rank_counter = {}
+    suit_counter = {}
+    same_suit_cards = 0
+    highest_rank_count = 0
+    is_straight = False
+    pairs = 0
+    ranks_lst = []
+    for card in hand: #Setup of dictionaries
+        suit_counter[card.suit] = suit_counter.get(card.suit, 0) + 1
+        rank_counter[card.rank] = rank_counter.get(card.rank, 0) + 1
+    for count in suit_counter.values(): #Counts Same Suit cards in hand
+        if count > same_suit_cards:
+            same_suit_cards = count
+    for count in rank_counter.values(): #Counts Same Rank cards in hand
+        if count > highest_rank_count:
+            highest_rank_count = count
+        if count == 2:
+            pairs+=1
+    for rank in rank_counter.keys():
+        ranks_lst.append(rank.value)
+    if len(ranks_lst) >= 5: #Ignores if there are less than 5 ranks
+        if ([14,2,3,4,5] == ranks_lst or [2,3,4,5,6] == ranks_lst or [3,4,5,6,7] == ranks_lst or [4,5,6,7,8] == ranks_lst
+                or [5,6,7,8,9] == ranks_lst or [6,7,8,9,10] == ranks_lst or [7,8,9,10,11] == ranks_lst or [8,9,10,11,12]
+                == ranks_lst or [9,10,11,12,13] == ranks_lst or [10,11,12,13,14] == ranks_lst): #Checks for a Straight
+            is_straight = True
+    if same_suit_cards == 5 and is_straight: #Checks for Straight Flush
+        return "Straight Flush"
+    elif highest_rank_count == 4:  #Checks for Four of a Kind
+        return "Four of a Kind"
+    elif  highest_rank_count == 3 and pairs == 1:  #Checks for Full House
+        return "Full House"
+    elif same_suit_cards == 5: #Checks for Flush
+        return "Flush"
+    elif is_straight:  #Checks for Straight
+        return "Straight"
+    elif highest_rank_count == 3:  #Checks for Three of a Kind
+        return "Three of a Kind"
+    elif pairs == 2:  #Checks for Two Pair
+        return "Two Pair"
+    elif highest_rank_count == 2:  #Checks for One Pair
+        return "One Pair"
     return "High Card" # If none of the above, it's High Card
