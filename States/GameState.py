@@ -784,12 +784,47 @@ class GameState(State):
 
         # ------------------- Apply Joker effects -------------------
         owned = set(self.playerJokers)
-        # TODO (TASK 5.2): Let the Joker mayhem begin! Implement each Joker’s effect using the Joker table as reference.
-        #   Follow this structure for consistency:
-        #   if "joker card name" in owned:
-        #       # Apply that Joker’s effect
-        #       self.activated_jokers.add("joker card name")
-        #   The last line ensures the Joker is visibly active and its effects are properly applied.
+        if "The Joker" in owned:
+            hand_mult+=4
+            self.activated_jokers.add("The Joker")
+        if "Micheal Myers" in owned:
+            hand_mult+=random.randrange(0,23)
+            self.activated_jokers.add("Micheal Myers")
+        if "Fibonacci" in owned:
+            for card in used_cards:
+                if (card.rank.value == 14 or card.rank.value == 2 or card.rank.value == 3 or card.rank.value == 5 or
+                    card.rank.value == 8):
+                    hand_mult+=8
+            self.activated_jokers.add("Fibonacci")
+        if "Gauntlet" in owned:
+            hand_chips+=250
+            self.playerInfo.amountOfHands=-2
+            self.activated_jokers.add("Gauntlet")
+        if "Ogre" in owned:
+            hand_chips+=3*len(owned)
+            self.activated_jokers.add("Ogre")
+        if "Straw Hat" in owned:
+            hand_chips+=max(0,100-5*(PlayerInfo.ammountOfHands-self.playerInfo.amountOfHands))
+            self.activated_jokers.add("Straw Hat")
+        if "Hog Rider" in owned:
+            if self.playedHandName == 'Straight':
+                hand_chips+=100
+            self.activated_jokers.add("Hog Rider")
+        if "? Block" in owned:
+            if len(used_cards) ==4:
+                hand_chips+=4
+            self.activated_jokers.add("Block")
+        if "Hogwarts" in owned:
+            for card in used_cards:
+                if card.rank.value == 14:
+                    hand_chips+=20
+                    hand_mult+=4
+            self.activated_jokers.add("Hogwarts")
+        if "802" in owned:
+            if self.playerInfo.amountOfHands==0:
+                hand_chips*=2
+                hand_mult*=2
+            self.activated_jokers.add("802")
 
         procrastinate = False
 
