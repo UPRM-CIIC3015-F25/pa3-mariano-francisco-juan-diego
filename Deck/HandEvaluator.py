@@ -9,8 +9,8 @@ def evaluate_hand(hand: list[Card]):
     pairs = 0
     ranks_lst = []
     for card in hand: #Setup of dictionaries
-        suit_counter[card.suit] = suit_counter.get(card.suit, 0) + 1
-        rank_counter[card.rank] = rank_counter.get(card.rank, 0) + 1
+        suit_counter[card.suit.value] = suit_counter.get(card.suit.value, 0) + 1
+        rank_counter[card.rank.value] = rank_counter.get(card.rank.value, 0) + 1
     for count in suit_counter.values(): #Counts Same Suit cards in hand
         if count > same_suit_cards:
             same_suit_cards = count
@@ -19,10 +19,11 @@ def evaluate_hand(hand: list[Card]):
             highest_rank_count = count
         if count == 2:
             pairs+=1
-    for rank in rank_counter.keys():
-        ranks_lst.append(rank.value)
+    for card_rank in rank_counter.keys():
+        ranks_lst.append(card_rank)
     if len(ranks_lst) >= 5: #Ignores if there are less than 5 ranks
-        if ([14,2,3,4,5] == ranks_lst or [2,3,4,5,6] == ranks_lst or [3,4,5,6,7] == ranks_lst or [4,5,6,7,8] == ranks_lst
+        ranks_lst.sort()
+        if ([2,3,4,5,14] == ranks_lst or [2,3,4,5,6] == ranks_lst or [3,4,5,6,7] == ranks_lst or [4,5,6,7,8] == ranks_lst
                 or [5,6,7,8,9] == ranks_lst or [6,7,8,9,10] == ranks_lst or [7,8,9,10,11] == ranks_lst or [8,9,10,11,12]
                 == ranks_lst or [9,10,11,12,13] == ranks_lst or [10,11,12,13,14] == ranks_lst): #Checks for a Straight
             is_straight = True
