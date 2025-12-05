@@ -29,5 +29,15 @@ class PlanetCard:
 #   These cards will be used in the shop and gameplay systems to upgrade specific poker hands.
 
 PLANETS = {
+    "Mercury": PlanetCard("Mercury", "levels up High Card",4,10,2),
+    "Venus": PlanetCard("Venus", "levels up Pair",5,12,3),
+    "Earth": PlanetCard("Earth", "levels up Two Pair",5,14,3),
+    "Mars": PlanetCard("Mars", "levels up Three of a Kind",6,15,4),
+    "Jupiter": PlanetCard("Jupiter", "levels up Straight",6,16,4),
+    "Saturn": PlanetCard("Saturn", "levels up Flush",6,16,4),
+    "Uranus": PlanetCard("Uranus", "levels up Full House",7,18,5),
+    "Neptune": PlanetCard("Neptune", "levels up Four of a Kind",8,20,6),
+    "Pluto": PlanetCard("Pluto", "levels up Straight Flush",9,22,6),
+    "Sun": PlanetCard("Sun", "levels up Five of a Kind",10,25,7),
 
 }
