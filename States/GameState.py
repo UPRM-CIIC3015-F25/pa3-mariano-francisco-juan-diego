@@ -537,19 +537,19 @@ class GameState(State):
     def calculate_gold_reward(self, playerInfo, stage=0):
         if stage == 0:
             base = 0
-            if playerInfo.blind_type == "SMALL":
+            if playerInfo.round == 1:
                 base = 4
-            elif playerInfo.blind_type == "BIG":
+            elif playerInfo.round == 2:
                 base = 8
-            elif playerInfo.blind_type == "BOSS":
+            elif playerInfo.round == 3:
                 base = 10
             playerInfo._reward_total = base
-            bonus = (playerInfo.score - playerInfo.target) / playerInfo.target * 5
+            bonus = (playerInfo.previousRoundScore - playerInfo.score) / playerInfo.score * 5
             playerInfo._bonus_left = min(5, max(0, bonus))
 
             return self.calculate_gold_reward(playerInfo, stage=1)
 
-        if stage == 1:
+        elif stage == 1:
             if playerInfo._bonus_left <= 0:
                 total = playerInfo._reward_total
                 del playerInfo._reward_total

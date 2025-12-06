@@ -7,6 +7,7 @@ class PlayerInfo(State):
     def __init__(self, nextState: str = ""):
         super().__init__(nextState)
         # ----------------------------Player Stats--------------------------------------------
+        self.previousRoundScore = 0
         self.roundScore = 0                 # Current round score (depending on curSubLevel)
         self.playerChips = 0                # Current chip count
         self.playerMultiplier = 0           # Current score multiplier
