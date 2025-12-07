@@ -99,19 +99,44 @@ class ShopState(State):
     #   Remember: the Sun upgrades all hands, while other planets upgrade only their specific one.
     def activatePlanet(self, planet):
         keys = HAND_SCORES.keys()
-        effect_text = planet.description.lower()
         if planet.name == "Sun":
-            for hand_name in HAND_SCORES:
+            for hand_name in keys:
                 HAND_SCORES[hand_name]["chips"] += planet.chips
-                HAND_SCORES[hand_name]["multiplier"] += planet.multiplier
+                HAND_SCORES[hand_name]["multiplier"] += planet.mult
                 HAND_SCORES[hand_name]["level"] += 1
-            return
-        for hand_name in HAND_SCORES:
-            if hand_name.lower() in effect_text:
-                HAND_SCORES[hand_name]["chips"] += planet.chips
-                HAND_SCORES[hand_name]["multiplier"] += planet.multiplier
-                HAND_SCORES[hand_name]["level"] += 1
-                break
+        else:
+            if planet.name == "Mercury":
+                HAND_SCORES["High Card"]["chips"] += planet.chips
+                HAND_SCORES["High Card"]["multiplier"] += planet.mult
+                HAND_SCORES["High Card"]["level"] += 1
+            elif planet.name == "Venus":
+                HAND_SCORES["One Pair"]["chips"] += planet.chips
+                HAND_SCORES["One Pair"]["multiplier"] += planet.mult
+                HAND_SCORES["One Pair"]["level"] += 1
+            elif planet.name == "Earth":
+                HAND_SCORES["Two Pair"]["chips"] += planet.chips
+                HAND_SCORES["Two Pair"]["multiplier"] += planet.mult
+                HAND_SCORES["Two Pair"]["level"] += 1
+            elif planet.name == "Mars":
+                HAND_SCORES["Three of a Kind"]["chips"] += planet.chips
+                HAND_SCORES["Three of a Kind"]["multiplier"] += planet.mult
+                HAND_SCORES["Three of a Kind"]["level"] += 1
+            elif planet.name == "Jupiter":
+                HAND_SCORES["Straight"]["chips"] += planet.chips
+                HAND_SCORES["Straight"]["multiplier"] += planet.mult
+                HAND_SCORES["Straight"]["level"] += 1
+            elif planet.name == "Saturn":
+                HAND_SCORES["Flush"]["chips"] += planet.chips
+                HAND_SCORES["Flush"]["multiplier"] += planet.mult
+                HAND_SCORES["Flush"]["level"] += 1
+            elif planet.name == "Uranus":
+                HAND_SCORES["Full House"]["chips"] += planet.chips
+                HAND_SCORES["Full House"]["multiplier"] += planet.mult
+                HAND_SCORES["Full House"]["level"] += 1
+            elif planet.name == "Neptune":
+                HAND_SCORES["Four of a Kind"]["chips"] += planet.chips
+                HAND_SCORES["Four of a Kind"]["multiplier"] += planet.mult
+                HAND_SCORES["Four of a Kind"]["level"] += 1
 
     # ---------- Helpers ----------
     def _wrap_lines(self, text, font, max_width):
