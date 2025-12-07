@@ -802,8 +802,6 @@ class GameState(State):
         for c in used_cards:
             card_chips_sum += c.chips
 
-        # total chips for display = base hand value + sum of used Cards' chips
-        total_chips = hand_chips + card_chips_sum
 
         # ------------------- Apply Joker effects -------------------
         owned = set(self.playerJokers)
@@ -818,38 +816,40 @@ class GameState(State):
                 if (card.rank.value == 14 or card.rank.value == 2 or card.rank.value == 3 or card.rank.value == 5 or
                     card.rank.value == 8):
                     hand_mult+=8
-            self.activated_jokers.add("Fibonacci")
+                    self.activated_jokers.add("Fibonacci")
         if "Gauntlet" in owned:
             hand_chips+=250
-            self.playerInfo.amountOfHands=-2
+            self.playerInfo.amountOfHands -= 1
             self.activated_jokers.add("Gauntlet")
         if "Ogre" in owned:
             hand_chips+=3*len(owned)
             self.activated_jokers.add("Ogre")
-        if "Straw Hat" in owned:
-            hand_chips+=max(0,100-5*(PlayerInfo.ammountOfHands-self.playerInfo.amountOfHands))
-            self.activated_jokers.add("Straw Hat")
+        if "StrawHat" in owned:
+            hand_chips+=max(0, 100 - 5 * self.playerInfo.round)
+            self.activated_jokers.add("StrawHat")
         if "Hog Rider" in owned:
             if self.playedHandName == 'Straight':
                 hand_chips+=100
-            self.activated_jokers.add("Hog Rider")
+                self.activated_jokers.add("Hog Rider")
         if "? Block" in owned:
-            if len(used_cards) ==4:
+            if len(self.cardsSelectedList) == 4:
                 hand_chips+=4
-            self.activated_jokers.add("Block")
+                self.activated_jokers.add("? Block")
         if "Hogwarts" in owned:
             for card in used_cards:
                 if card.rank.value == 14:
                     hand_chips+=20
                     hand_mult+=4
-            self.activated_jokers.add("Hogwarts")
+                self.activated_jokers.add("Hogwarts")
         if "802" in owned:
             if self.playerInfo.amountOfHands==0:
                 hand_chips*=2
                 hand_mult*=2
-            self.activated_jokers.add("802")
+                self.activated_jokers.add("802")
 
         procrastinate = False
+        # total chips for display = base hand value + sum of used Cards' chips
+        total_chips = hand_chips + card_chips_sum
 
         # commit modified player multiplier and chips
         self.playerInfo.playerMultiplier = hand_mult
